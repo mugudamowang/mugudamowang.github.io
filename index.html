@@ -182,17 +182,20 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/03/30/hello-world/">Hello World</a>
+        <a href="/2020/07/24/JavaScript%E9%97%AD%E5%8C%85%E7%AE%80%E6%98%93%E6%8C%87%E5%8D%97(%E7%BF%BB%E8%AF%91)/">JavaScript闭包简易指南</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/03/30/hello-world/">
+        <a href="/2020/07/24/JavaScript%E9%97%AD%E5%8C%85%E7%AE%80%E6%98%93%E6%8C%87%E5%8D%97(%E7%BF%BB%E8%AF%91)/">
           
           
             
           
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick
+          JavaScript闭包简易指南(翻译)在学习闭包过程之中，发现了medium中一篇比较好理解的外国博客。为方便学习交流，在下初略翻译搬运，并在自己的理解上进行修改和添加了自己的内容.
+本文适合初步了解闭包，只从作用域和函数执行过程两个角度简易解释闭包深入认识闭包还要从设计模式、应用场景、浏览器垃圾回收机制和词法作用域（待更新）
+原文连接
+
+javascript中的闭包是让许多开发者头疼的东西。在
         </a>
       </p>
 
@@ -200,12 +203,465 @@ Quick
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-03-30 12:40" pubdate>
-              2021-03-30
+            <time datetime="2020-07-24 10:00" pubdate>
+              2020-07-24
             </time>
           </div>
         
         
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%8D%E7%AB%AF%E6%89%8B%E6%9C%AD/">前端手札</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/js/">js</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/04/css%E5%B8%B8%E7%94%A8%E5%B8%83%E5%B1%80-%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95%E7%9B%92%E6%A8%A1%E5%9E%8Bflexbox%E6%A8%A1%E5%9E%8B/">css常用布局-居中方法盒模型flexbox模型</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/04/css%E5%B8%B8%E7%94%A8%E5%B8%83%E5%B1%80-%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95%E7%9B%92%E6%A8%A1%E5%9E%8Bflexbox%E6%A8%A1%E5%9E%8B/">
+          
+          
+            
+          
+          一 css布局模型(.md+.png)盒子模型
+1. display文档流显示
+外部显示类型
+
+控制在文档流中的排版
+
+inline  block  run-in
+
+
+
+
+内部显示类型
+
+控制子元素的排版
+
+flow layout  grid  flex   table
+
+
+
+
+legacy双关键字
+
+inline-block 
+
+文档流中(即外部)表现为inline内联, 自身为block
+
+
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-04 13:50" pubdate>
+              2020-07-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%8D%E7%AB%AF%E6%89%8B%E6%9C%AD/">前端手札</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/css/">css</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/06/18/promise%E4%B8%8Ejsonp/">promise与jsonp</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/18/promise%E4%B8%8Ejsonp/">
+          
+          
+            
+          
+          一 Promise/A+MDN1. 何为promise:promise是一种解决方案,用于处理异步编程中回调问题,比传统的回调函数更加合理易用.
+这里的回调问题主要是函数名不统一和**回调地狱**问题,例如在使用第三方库的ajax时,调用传统的回调函数,需要知道函数参数的名称,有的是succ,有的可以是done等等.所以需要统一的风格来共用一套解决方案,所以有了promise来处理这个问题;回调地
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-18 09:01" pubdate>
+              2020-06-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%8D%E7%AB%AF%E6%89%8B%E6%9C%AD/">前端手札</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/js/">js</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/23/js%E5%8E%9F%E5%9E%8B%E9%93%BE/">js原型链</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/03/23/js%E5%8E%9F%E5%9E%8B%E9%93%BE/">
+          
+          
+            
+          
+          原型链 link-MDN
+
+
+1. 概念每个实例对象（ object ）都有一个私有属性（称之为 proto ）指向它的构造函数的原型对象（prototype ）该原型对象也有一个自己的原型对象( proto ) ，层层向上直到一个对象的原型对象为 null.
+原型链:    原型对象有着各种共用属性, 在访问属性过程中, 通过该对象和原型对象的层层搜索,直到尾端null的过程.
+
+2. 继承js
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-23 11:42" pubdate>
+              2020-03-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%8D%E7%AB%AF%E6%89%8B%E6%9C%AD/">前端手札</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/js/">js</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构概论导图</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/03/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+          
+          
+            
+          
+          
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-14 20:53" pubdate>
+              2020-03-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/09/%E9%87%8D%E5%AD%A6%E5%89%8D%E7%AB%AF-HTML/">前端二向箔-HTML</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/03/09/%E9%87%8D%E5%AD%A6%E5%89%8D%E7%AB%AF-HTML/">
+          
+          
+            
+          
+          绪论 系统化前端知识复盘我的疑惑本人接触编程到学习前端知识, 估摸已有近一年多时间, 在这个过程中遇到了一些常见的问题:
+
+知识碎片化, 即使学习了大量的知识, 也有进行一些实战操作, 但很多时候知识系统一片混乱
+即使使用了一些管理工具, 如onenote\博客\notion等, 仍然觉得自身整理的内容缺乏条理和价值
+难以坚持, 在进行了约3-4个月的博客记录后, 之后频率降低, 有学习抵触心理
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-09 22:36" pubdate>
+              2020-03-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%8D%E7%AB%AF%E6%89%8B%E6%9C%AD/">前端手札</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/20/%E6%9C%A8%E6%98%9F%E7%96%AF%E4%BA%BA%E9%99%A2/">木星疯人院</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/02/20/%E6%9C%A8%E6%98%9F%E7%96%AF%E4%BA%BA%E9%99%A2/">
+          
+          
+            
+          
+          木星疯人院这是一个荒诞的梦，似乎有点玄幻，但我应该记录下来。因为至今我还未曾做过一个如此记忆犹新的梦，某种至在莫种程度上，出乎真实。
+
+我又醒了，在不知名的灰白色房间里，床榻也是灰白的，朦胧的阳光透过灰白到发黄的窗帘晕染了我的视线。
+今天又是一份试卷，我不知道为什么要做试卷，貌似和早餐一样，是我起床第一件要做的事情。也不多想，就是做完它，但也每次都记不起来试卷的内容是什么。
+之后便出现一位少女，在
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-20 08:44" pubdate>
+              2020-02-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%8D%97%E5%9F%8E%E5%85%AD%E6%9C%88/">南城六月</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%A2%A6/">梦</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/19/display%E5%B8%83%E5%B1%80/">display布局</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/02/19/display%E5%B8%83%E5%B1%80/">
+          
+          
+            
+          
+          一 关于display所有元素在网页上的存在形式都是长方体,而影响网页的布局的主要因素一方面是文档流,一方面则是css控制的元素的表现形式display,其中常用的有:
+1234567div &#123;  display: inline;        /* Default of all elements, unless UA stylesheet overrides */  display: 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-19 22:18" pubdate>
+              2020-02-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%89%8D%E7%AB%AF%E6%89%8B%E6%9C%AD/">前端手札</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/web/">web</a>
+            
+              <a href="/tags/css/">css</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/09/%E6%96%B0%E5%B1%B1%E9%AC%BC/">新山鬼</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/02/09/%E6%96%B0%E5%B1%B1%E9%AC%BC/">
+          
+          
+            
+          
+          ​    南方的小村以南横亘着一条河，一直往北绵延潜伏在一座山里。山里有座古刹，传说是夏禹治水建造，曰：”山鬼庙“，为众人祈福，保风护雨。千百年来，当地风调雨顺，因而庙宇备受人们敬仰，香火鼎盛。但不料乾坤不定，天灾来临，大水如猛禽掠食，缺粮，死人，饥荒肆虐，哀鸿遍野。​    众人散去，庙宇冷清，僧侣还俗，门可罗雀。​    只留下一位俊俏的小僧，立半柱清香于佛前，守净庭而闲扫落叶，于堂前诵读般若
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-09 16:53" pubdate>
+              2020-02-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%8D%97%E5%9F%8E%E5%85%AD%E6%9C%88/">南城六月</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%BF%B5/">念</a>
+            
+          </div>
         
       </div>
     </article>

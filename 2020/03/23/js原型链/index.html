@@ -18,7 +18,7 @@
   <meta name="author" content="mugu">
   <meta name="keywords" content="mugu,web前端,博客">
   
-  <title>Hello World - mugu&#39;s blog</title>
+  <title>js原型链 - mugu&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hello World">
+            <span class="h2" id="subtitle" title="js原型链">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-30 12:40" pubdate>
-        2021年3月30日 下午
+      <time datetime="2020-03-23 11:42" pubdate>
+        2020年3月23日 中午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      75 字
+      587 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      7
        分钟
     </span>
   
@@ -233,7 +233,7 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">js原型链</h1>
             
               <p class="note note-info">
                 
@@ -242,25 +242,55 @@
               </p>
             
             <div class="markdown-body">
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+              <h2 id="原型链-link-MDN"><a href="#原型链-link-MDN" class="headerlink" title="原型链 link-MDN"></a><strong>原型链</strong> <sup><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">link-MDN</a></sup></h2><br>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<hr>
+<h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1. 概念"></a>1. <strong>概念</strong></h3><p>每个实例对象（ object ）都有一个私有属性（称之为 <strong>proto</strong> ）指向它的构造函数的原型对象（prototype ）该原型对象也有一个自己的原型对象( <strong>proto</strong> ) ，层层向上直到一个对象的原型对象为 null.</p>
+<p><em>原型链</em>:    原型对象有着各种共用属性, 在访问属性过程中, 通过该对象和原型对象的层层搜索,直到尾端null的过程.<br><br></p>
+<hr>
+<h3 id="2-继承"><a href="#2-继承" class="headerlink" title="2. 继承"></a>2. <strong>继承</strong></h3><p>js的继承基于原型链, 对象本质上是一个动态的属性包, 继承属性与其他属性,没有区别.</p>
+<p><strong>调用this时,this指向当前继承的对象.而非原型对象</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> o = &#123;<br>  a: <span class="hljs-number">2</span>,<br>  m: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.a + <span class="hljs-number">1</span>;<br>  &#125;<br>&#125;;<br><br><span class="hljs-built_in">console</span>.log(o.m()); <span class="hljs-comment">// 3</span><br><span class="hljs-comment">// 当调用 o.m 时，&#x27;this&#x27; 指向了 o.</span><br><br><span class="hljs-keyword">var</span> p = <span class="hljs-built_in">Object</span>.create(o);<br><span class="hljs-comment">// p是一个继承自 o 的对象</span><br><br>p.a = <span class="hljs-number">4</span>; <span class="hljs-comment">// 创建 p 的自身属性 &#x27;a&#x27;</span><br><span class="hljs-built_in">console</span>.log(p.m()); <span class="hljs-comment">// 5</span><br><span class="hljs-comment">// 调用 p.m 时，&#x27;this&#x27; 指向了 p</span><br><span class="hljs-comment">// 又因为 p 继承了 o 的 m 函数</span><br><span class="hljs-comment">// 所以，此时的 &#x27;this.a&#x27; 即 p.a，就是 p 的自身属性 &#x27;a&#x27; </span><br><span class="hljs-comment">// from MDN</span><br></code></pre></td></tr></table></figure>
+<br>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<hr>
+<h3 id="3-prototype和-proto"><a href="#3-prototype和-proto" class="headerlink" title="3. prototype和__proto__"></a>3. <strong>prototype和__proto__</strong></h3><p><strong>prototype是函数的属性</strong><br>这个属性是一个指针，指向一个对象，这个对象的用途就是<strong>包含所有实例共享的属性和方法</strong>（我们把这个对象叫做原型对象）。原型对象也有一个属性，叫做<strong>constructor</strong>，这个属性包含了一个指针，指回原构造函数</p>
+<p>**__proto__是对象的属性**<br>对象具有属性__proto__，可称为隐式原型，一个对象的隐式原型指向构造该对象的构造函数的原型，这也保证了实例能够访问在构造函数原型中定义的属性和方法。</p>
+<p><small><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/34183746">detail 1</a></small></p>
+<p><small><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/56770432/answer/315342130">detail 2</a></small></p>
+<p><img src="https://pic1.zhimg.com/80/e83bca5f1d1e6bf359d1f75727968c11_720w.jpg" srcset="/img/loading.gif" lazyload alt="zhihu"><br><br></p>
+<hr>
+<h3 id="4-使用"><a href="#4-使用" class="headerlink" title="4. 使用"></a>4. <strong>使用</strong></h3><p>假设创建一个新的对象 function doSomething() {}</p>
+<ol>
+<li><strong>添加属性</strong> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>)</span>&#123;&#125;<br>doSomething.prototype.foo = <span class="hljs-string">&quot;bar&quot;</span>;<br><span class="hljs-built_in">console</span>.log( doSomething.prototype );<br></code></pre></td></tr></table></figure></li>
+<li><strong>添加继承</strong> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>)</span>&#123;&#125;<br>doSomething.prototype.foo = <span class="hljs-string">&quot;bar&quot;</span>; <span class="hljs-comment">// add a property onto the prototype</span><br><span class="hljs-keyword">var</span> doSomeInstancing = <span class="hljs-keyword">new</span> doSomething();<br>doSomeInstancing.prop = <span class="hljs-string">&quot;some value&quot;</span>; <span class="hljs-comment">// add a property onto the object</span><br><span class="hljs-built_in">console</span>.log( doSomeInstancing );<br></code></pre></td></tr></table></figure></li>
+<li><strong>打印出原型链</strong> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>prop: <span class="hljs-string">&quot;some value&quot;</span>,<br>__proto__: &#123;<br>    foo: <span class="hljs-string">&quot;bar&quot;</span>,<br>    <span class="hljs-title">constructor</span>: ƒ <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>),<br>    <span class="hljs-title">__proto__</span>: &#123;<br>        <span class="hljs-title">constructor</span>: ƒ <span class="hljs-title">Object</span>(<span class="hljs-params"></span>),<br>        <span class="hljs-title">hasOwnProperty</span>: ƒ <span class="hljs-title">hasOwnProperty</span>(<span class="hljs-params"></span>),<br>        <span class="hljs-title">isPrototypeOf</span>: ƒ <span class="hljs-title">isPrototypeOf</span>(<span class="hljs-params"></span>),<br>        <span class="hljs-title">propertyIsEnumerable</span>: ƒ<br>        <span class="hljs-title">propertyIsEnumerable</span>(<span class="hljs-params"></span>),<br>        <span class="hljs-title">toLocaleString</span>: ƒ <span class="hljs-title">toLocaleString</span>(<span class="hljs-params"></span>),<br>        <span class="hljs-title">toString</span>: ƒ <span class="hljs-title">toString</span>(<span class="hljs-params"></span>),<br>        <span class="hljs-title">valueOf</span>: ƒ <span class="hljs-title">valueOf</span>(<span class="hljs-params"></span>)<br>      &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>即</p>
+<p> <strong>doSomeInstancing.__ proto __ = doSomething.prototype</strong></p>
+<p><strong>doSomeInstancing—&gt;doSoemthing.prototype—&gt;Object.prototype</strong></p>
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF%E6%89%8B%E6%9C%AD/">前端手札</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/js/">js</a>
+                    
+                  </div>
                 
               </div>
               
@@ -275,9 +305,21 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2020/06/18/promise%E4%B8%8Ejsonp/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">promise与jsonp</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2020/03/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                        <span class="hidden-mobile">数据结构概论导图</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

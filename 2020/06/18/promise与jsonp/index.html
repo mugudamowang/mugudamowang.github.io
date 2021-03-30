@@ -1,0 +1,601 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="mugu的blog，记录下生活与web">
+  <meta name="author" content="mugu">
+  <meta name="keywords" content="mugu,web前端,博客">
+  
+  <title>promise与jsonp - mugu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"www.bukun.top","root":"/","version":"1.8.9-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"⭐","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Oliver</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="promise与jsonp">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-06-18 09:01" pubdate>
+        2020年6月18日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">promise与jsonp</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年3月30日 下午
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h2 id="一-Promise-A-MDN"><a href="#一-Promise-A-MDN" class="headerlink" title="一 Promise/A+MDN"></a>一 Promise/A+<sup><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise">MDN</a></sup></h2><h3 id="1-何为promise"><a href="#1-何为promise" class="headerlink" title="1. 何为promise:"></a>1. 何为promise:</h3><p>promise是一种<strong>解决方案</strong>,用于处理异步编程中回调问题,比传统的回调函数更加合理易用.</p>
+<p>这里的回调问题主要是<strong>函数名不统一</strong>和**<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI4OTc3NDgzNQ==&mid=2247484700&idx=1&sn=0a840596519263dd8baa1e4a0f265151&chksm=ec2b4880db5cc196a314f2b00eee6a070f06bfe76c78520dd1dfb1c580fd2854b5bea1e52b92&mpshare=1&scene=23&srcid=05018Hm3bknNtywEJv1Yn5T2#rd">回调地狱</a>**问题,例如在使用第三方库的ajax时,调用传统的回调函数,需要知道函数参数的名称,有的是succ,有的可以是done等等.所以需要统一的风格来共用一套解决方案,所以有了promise来处理这个问题;回调地狱是由于多重函数作为参数层层嵌套,最后造成可读性很差、代码量巨大、可维护性差等问题.</p>
+<p>promise在语法上是一个<strong>对象</strong>,构造函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>( <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve, reject</span>) </span>&#123;...&#125; <span class="hljs-comment">/* executor */</span>  );<br></code></pre></td></tr></table></figure>
+
+<p>promise对象包含:</p>
+<ul>
+<li><p>三种状态:</p>
+<ul>
+<li> pending(待定)</li>
+<li> fulfill(完成)</li>
+<li> rejected(失败)  </li>
+</ul>
+</li>
+<li><p>两个函数参数:</p>
+<ul>
+<li>resolve</li>
+<li>reject </li>
+</ul>
+<p>其中调用过程如下:<br>  <img src="https://mdn.mozillademos.org/files/8633/promises.png" srcset="/img/loading.gif" lazyload alt="调用过程"></p>
+</li>
+</ul>
+<h3 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2.使用方法"></a>2.使用方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//创建一个promise</span><br><span class="hljs-keyword">const</span> myFirstPromise = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br><span class="hljs-comment">// ?做一些异步操作，最终会调用下面两者之一:</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//   resolve(someValue); // fulfilled</span><br><span class="hljs-comment">// ?或</span><br><span class="hljs-comment">//   reject(&quot;failure reason&quot;); // rejected</span><br>&#125;);<br><br><span class="hljs-comment">//让某个函数拥有promise功能</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myAsyncFunction</span>(<span class="hljs-params">url</span>) </span>&#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">const</span> xhr = <span class="hljs-keyword">new</span> XMLHttpRequest();<br>    xhr.open(<span class="hljs-string">&quot;GET&quot;</span>, url);<br>    xhr.onload = <span class="hljs-function">() =&gt;</span> resolve(xhr.responseText);<br>    xhr.onerror = <span class="hljs-function">() =&gt;</span> reject(xhr.statusText);<br>    xhr.send();<br>  &#125;);<br>&#125;;<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//例1:</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getUserId</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve</span>) </span>&#123;<br>        <span class="hljs-comment">//异步请求</span><br>        http.get(url, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">results</span>) </span>&#123;<br>            resolve(results.id)<br>        &#125;)<br>    &#125;)<br>&#125;<br><br>getUserId().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">id</span>) </span>&#123;<br>    <span class="hljs-comment">//一些处理</span><br>&#125;)<br><br><span class="hljs-comment">//例2:</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">xxx</span>(<span class="hljs-params"></span>)</span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>)=&gt;</span>&#123;<br>		doyouwork();<br>        cosnt res;<br>        cosnt err;<br>        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">()=&gt;</span>&#123;<br>            <span class="hljs-keyword">if</span>(success)&#123;<br>            resolve().call(<span class="hljs-literal">undefined</span>,res)<br>        	&#125;<span class="hljs-keyword">else</span>&#123;<br>            reject().call(<span class="hljs-literal">undefined</span>,err)<br>        &#125;<br>        &#125;)<br>    &#125;)<br>&#125;<br><br>xxx().then(succ(res),fail(err))  <span class="hljs-comment">///调用</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//简单原型结构</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Promise</span>(<span class="hljs-params">fn</span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> value = <span class="hljs-literal">null</span>,<br>        callbacks = [];  <span class="hljs-comment">//callbacks为数组，因为可能同时有很多个回调</span><br><br>    <span class="hljs-built_in">this</span>.then = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">onFulfilled</span>) </span>&#123;<br>        callbacks.push(onFulfilled);<br>    &#125;;<br><br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resolve</span>(<span class="hljs-params">value</span>) </span>&#123;<br>        callbacks.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">callback</span>) </span>&#123;<br>            callback(value);<br>        &#125;);<br>    &#125;<br>    <br>    fn(resolve);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>getUserId返回的Promise对象通过then注册它成功的回调函数 </p>
+</li>
+<li><p>从数据结构的角度就是promise调用自身的then方法,向callbacks队列push进去一个函数对象, 实现入队操作</p>
+</li>
+</ul>
+<h3 id="3-成员方法"><a href="#3-成员方法" class="headerlink" title="3.成员方法:"></a>3.成员方法:</h3><p><img src="https://i.loli.net/2020/06/18/tLHNSW6TqJz7Xdf.png" srcset="/img/loading.gif" lazyload alt="image-20200618132622539"></p>
+<p>​    </p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"><code>Promise.all(iterable)</code></a></p>
+<p>这个方法返回一个新的promise对象，该promise对象在iterable参数对象里所有的promise对象都成功的时候才会触发成功，一旦有任何一个iterable里面的promise对象失败则立即触发该promise对象的失败。这个新的promise对象在触发成功状态以后，会把一个包含iterable里所有promise返回值的数组作为成功回调的返回值，顺序跟iterable的顺序保持一致；如果这个新的promise对象触发了失败状态，它会把iterable里第一个触发失败的promise对象的错误信息作为它的失败错误信息。Promise.all方法常被用于处理多个promise对象的状态集合</p>
+<p>常见的应用场景有页面加载多个ajax数据回来以前，保持loading显示，或者加载失败后进行异步操作</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/race"><code>Promise.race(iterable)</code></a></p>
+<p>当iterable参数里的任意一个子promise被成功或失败后，父promise马上也会用子promise的成功返回值或失败详情作为参数调用父promise绑定的相应句柄，并返回该promise对象</p>
+<p>如Promise.race([p1, p2, p3]), 应用场景有超时机制</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject"><code>Promise.reject(reason)</code></a></p>
+<p>返回一个状态为失败的Promise对象，并将给定的失败信息传递给对应的处理方法</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve"><code>Promise.resolve(value)</code></a></p>
+<p>返回一个状态由给定value决定的Promise对象。如果该值是thenable(即，带有then方法的对象)，返回的Promise对象的最终状态由then方法执行决定；否则的话(该value为空，基本类型或者不带then方法的对象),返回的Promise对象状态为fulfilled，并且将该value传递给对应的then方法。通常而言，如果你不知道一个值是否是Promise对象，使用Promise.resolve(value) 来返回一个Promise对象,这样就能将该value以Promise对象形式使用。</p>
+</li>
+<li><p>Promise.prototype.then(onFulfilled[, onRejected])</p>
+<p>当 Promise 变成接受状态（fulfilled）时调用的<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Function"><code>函数</code></a>。该函数有一个参数，即接受的最终结果（the fulfillment  value）。如果该参数不是函数，则会在内部被替换为 <code>(x) =&gt; x</code>，即原样返回 promise 最终结果的函数<br>当 Promise 变成拒绝状态（rejected）时调用的<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Function"><code>函数</code></a>。该函数有一个参数，即拒绝的原因（<code>rejection reason</code>）。 如果该参数不是函数，则会在内部被替换为一个 “Thrower” 函数 (it throws an error it received as argument)<br>当一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise"><code>Promise</code></a> 完成（fulfilled）或者失败（rejected）时，返回函数将被异步调用（由当前的线程循环来调度完成）</p>
+</li>
+</ul>
+<h3 id="4-来日补充"><a href="#4-来日补充" class="headerlink" title="4.来日补充"></a>4.来日补充</h3><h2 id="二-JSONP"><a href="#二-JSONP" class="headerlink" title="二 JSONP"></a>二 JSONP</h2><h3 id="1-JSON"><a href="#1-JSON" class="headerlink" title="1.JSON"></a>1.JSON</h3><p>​    javascript是一种是一种具有函数优先的轻量级，解释型或即时编译型的编程语言脚本语言</p>
+<p>​    json是一种数据格式化语言 </p>
+<p>​    jsonp是一种JSON扩展，是一种JSON的使用格式</p>
+<p>​    json是以键值对的形式进行对数据交换的支持，语法支持对象、数组、字符串、数值、null、Boolean，相比javacript少了symbol和undefined。</p>
+<p>​    主要的用处在于交换数据，比如动态网页想要数据的写数据，发送请求后服务器把数据转换为json格式，客户端接受json并解析其中的文本内容以应用到网页上。</p>
+<p>​    JSON<a target="_blank" rel="noopener" href="https://www.json.org/json-zh.html">官网</a></p>
+<h3 id="2-JSONP"><a href="#2-JSONP" class="headerlink" title="2.JSONP"></a>2.JSONP</h3><p>​    <em>JSONP or “JSON with padding” is a JSON extension wherein a prefix is specified as an input argument of the call itself.</em></p>
+<p>​    jsonp模式可以破除跨域同源限制进行第三方数据访问, 此外用其他标签通过添加<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">CORS</a>协议的请求头也可以实行跨域资源访问,只不过需要和后端协调</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">//</span>jsonp格式<br>	parseRespone&#123;		<span class="hljs-regexp">//</span>---&gt;这就是padding<br>​	<span class="hljs-string">&quot;key1&quot;</span> : <span class="hljs-string">&quot;String&quot;</span><br><br>​	<span class="hljs-string">&quot;key2&quot;</span> : <span class="hljs-number">233</span> 		<span class="hljs-regexp">//</span>---&gt;<span class="hljs-string">&quot;键&quot;</span>:值<br><br>&#125;					<span class="hljs-regexp">//</span>---&gt;这也是padding<br></code></pre></td></tr></table></figure>
+
+
+
+<p>​    JSONP使用json的使用模式：</p>
+<ol>
+<li><p>使用js标签</p>
+<pre><code>由于js标签没有[跨域同源](https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy)的限制(即同协议、同端口、同主机)，使用\&lt;script&gt;标签，src指向需要请求的网址如：
+</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;script src= <span class="hljs-string">&quot;https://cn.bing.com/?scope=web/&quot;</span> &gt;&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>​    值的注意的是，<strong>jsonp只能用get方法，因为jsonp借助的是js动态标签，而动态标签只能用get</strong></p>
+<ol start="2">
+<li><p>约定回调<br>响应方获取请求方提供的回调函数名，做相应的处理后返回JSON数据的封装，形如上面的中的jsonp格式</p>
+</li>
+<li><p>调用回调</p>
+</li>
+</ol>
+<p>请求方获取json封装的服务器响应数据，并解析获取其中内容，调用回调函数后，加载到网页上</p>
+</li>
+</ol>
+<p>至此jsonp完成,总结两点:</p>
+<ul>
+<li><p>JSONP是通过 script 标签加载数据的方式去获取数据当做 JS 代码来执行</p>
+</li>
+<li><p>提前在页面上声明一个函数，函数名通过接口传参的方式传给后台，后台解析到函数名后在原始数据上「包裹」这个函数名，发送给前端。换句话说，JSONP 需要对应接口的后端的配合才能实现。</p>
+</li>
+</ul>
+<p>完整示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//jquery的ajax封装</span><br>$.ajax(&#123;<br>	url:<span class="hljs-string">&quot;www.exmaple.com/fuck&quot;</span>,<br>	dataType: <span class="hljs-string">&quot;jsonp&quot;</span>,<br>	success: <span class="hljs-function"><span class="hljs-title">fucntion</span>(<span class="hljs-params">response</span>)</span>&#123;<br>		doyouwork()<br>	&#125;,<br>	fail: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>)</span>&#123;<span class="hljs-built_in">console</span>.log(err)&#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>​            </p>
+<p>学习链接    : <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/42377418">知乎</a>  <a target="_blank" rel="noopener" href="https://es6.ruanyifeng.com/#docs/promise#Promise-%E7%9A%84%E5%90%AB%E4%B9%89">阮一峰</a>  <a target="_blank" rel="noopener" href="https://promisesaplus.com/">promise/A+规范</a>  <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1MJ41197Eu?p=2">Bilibili尚硅谷学习promise学习教程</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF%E6%89%8B%E6%9C%AD/">前端手札</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/js/">js</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/04/css%E5%B8%B8%E7%94%A8%E5%B8%83%E5%B1%80-%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95%E7%9B%92%E6%A8%A1%E5%9E%8Bflexbox%E6%A8%A1%E5%9E%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">css常用布局-居中方法盒模型flexbox模型</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/03/23/js%E5%8E%9F%E5%9E%8B%E9%93%BE/">
+                        <span class="hidden-mobile">js原型链</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.lazyComments('comments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/twikoo@1.3.0/dist/twikoo.all.min.js', function() {
+        twikoo.init({
+          el: '#twikoo',
+          envId: 'blog-comment-6g64b7i11da535ea',
+          region: 'ap-shanghai',
+          path: 'window.location.pathname',
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
