@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>性能优化</title>
+    <link href="/2022/03/21/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    <url>/2022/03/21/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="什么是性能优化"><a href="#什么是性能优化" class="headerlink" title="什么是性能优化"></a>什么是性能优化</h3><p>性能优化简单点说就是提高网站访问速度, 网站稳定性和交互体验.</p><p>具体的可以在以下几个方面衡量:</p><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs erlang"><span class="hljs-number">1</span>.减少整体资源的加载时间.<br><span class="hljs-number">2</span>.加快首屏渲染<br><span class="hljs-number">3</span>.平滑交互和动画效果<br><span class="hljs-number">4</span>.感知表现加强<br><span class="hljs-number">5</span>.性能的测定<br></code></pre></td></tr></table></figure><h3 id="性能优化指标"><a href="#性能优化指标" class="headerlink" title="性能优化指标"></a>性能优化指标</h3><blockquote><p>各种指标的加载时间基本在1~5秒内都是较好的.</p></blockquote><ol><li>RAIL模型 <a href="https://web.dev/rail/">使用 RAIL 模型衡量性能 (web.dev)</a></li><li>基于用户体验(前两个重要)<ol><li>FCP: first-content-paint, 白屏时间    <a href="https://web.dev/fcp/">First Contentful Paint 首次内容绘制 (FCP) (web.dev)</a></li><li>LCP: largest-content-paint, 最大内容区域绘制时间 <a href="https://web.dev/lcp/">Largest Contentful Paint 最大内容绘制 (LCP)</a></li><li>FID(&lt;300ms): first-input-delay, 首次输入延迟(js主线程忙, 不能响应操作, 如网页加载) <a href="https://web.dev/fid/">First Input Delay 首次输入延迟 (FID) (web.dev)</a></li><li>TTI: time-to-interact, 完全可交互时间(最后一个长任务结束后5s内主线程空闲)</li><li>TBT(&lt;600ms): total-block-time, 总阻塞时间</li><li>CLS(&lt;0.25ms最好不抖动): cumulative-layout-shift, 布局抖动</li></ol></li><li>web-vital: LCP+FID+CLS. 简化版</li></ol><h3 id="性能优化测试工具"><a href="#性能优化测试工具" class="headerlink" title="性能优化测试工具"></a>性能优化测试工具</h3><ol><li><p><strong>lighthouse</strong>: google开源的性能测试工具, 生成性能测试报告. 直接在chrome里面直接使用. 以本人网站bunkun.top为例子:</p><ol><li>性能表现:</li></ol><p><img src="https://s2.loli.net/2022/02/26/k1yXmf3N7UqCPct.png" alt="image-20220226173303832"></p><ol start="2"><li>优化建议</li></ol><p><img src="C:\Users\Mr.yang\AppData\Roaming\Typora\typora-user-images\image-20220226174250329.png" alt="image-20220226174250329"></p><p>​    其他: 预加载所要请求的多源(图片). 降低服务器响应时间. 调整图片大小. 移除未使用的资源(js/css)</p><ol start="3"><li><p>诊断结果</p><p>多角度对得出的数据进行网站性能分析. 如静态资源的缓存策略. 降低js脚本执行时间, 文件压缩(影响分数很大)等</p></li><li><p>通过项: 符合要求的项.</p></li></ol></li><li><p><strong>Chrome devtools</strong></p><ol><li>network面板<ol><li>有无缓存测试</li><li>网路吞吐测试</li><li>coverage: 监控网站代码运行覆盖率. 如果一个大文件代码执行率低, 那可能存在一些无用代码可以优化. 因此可以用这个可视化结果对文件进行拆分以减少文件大小从而减小FCP等指标.</li></ol></li><li>memory面板<ol><li>内存泄漏测试</li></ol></li><li>performance面板<ol><li>运行时性能测试: 测试动画流畅度, 交互效果</li></ol></li></ol></li><li><p>webpagetest: 专业网站测试工具.</p></li></ol><h3 id="性能优化-1"><a href="#性能优化-1" class="headerlink" title="性能优化"></a>性能优化</h3><h4 id="web的性能优化思路"><a href="#web的性能优化思路" class="headerlink" title="web的性能优化思路"></a>web的性能优化思路</h4><ol><li>分析网站: 利用分析工具(如lighthouse生成报告)分析性能瓶颈, 从报告建议和问题入手 ; 从前端页面生命周期入手.</li><li>提高加载速度: 主要针对FCP, LCP等优化, 检查文件压缩, 静态资源配置, 有无未使用资源等, 提高整体资源的加载速度直到符合要求.</li><li>完善交互体验: 主要网站交互体验, 降低FID, TTI等时间, 优化动画效果, 预加载动画, 骨架屏等提高用户感知.</li></ol><h4 id="图片类型选择"><a href="#图片类型选择" class="headerlink" title="图片类型选择"></a>图片类型选择</h4><p>图片的类型主要有位图和矢量图</p><ul><li>位图: 以像素为单位的, 像素点的平面排布图.</li><li>矢量图: 记录元素的形状和绘制算法, 以矢量的形式绘制线面. 因此放大不会失真.</li></ul><p>图片的压缩类型则包括</p><ul><li>无压缩: BMP</li><li>有损压缩: jpg/jepg</li><li>无损压缩: png, gif</li></ul><table><thead><tr><th>类型</th><th>说明</th><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td>GIF</td><td>8bit压缩256色彩; 适用色彩较少的图片.</td><td>支持动画/透明/体积较小</td><td>色彩少</td></tr><tr><td>JPEG/JPG</td><td>在照片的使用比较频繁的有损压缩图片格式</td><td>体积小/24位色彩/渐进式加载</td><td>不透明/有损</td></tr><tr><td>PNG</td><td>支持多种位深的格式, 适合网页各种图片</td><td>无损/透明, 半透明/色彩多</td><td>不支持动画/压缩量相对较小</td></tr><tr><td>WEBP</td><td>谷歌出品, 兼具jpg和png的特点</td><td>体积小/透明</td><td>支持差</td></tr><tr><td>SVG</td><td>使用XML定义语言</td><td>不失真/体积很小</td><td>渲染成本</td></tr></tbody></table><p><a href="https://jayzangwill.github.io/blog/2020/04/07/img-knowledge/">前端该如何选择图片的格式</a></p><h4 id="3-最佳实践"><a href="#3-最佳实践" class="headerlink" title="3. 最佳实践"></a>3. 最佳实践</h4><ul><li>性能评级工具（PageSpeed 或 YSlow）</li><li>合理设置 HTTP 缓存：Expires 与 Cache-control</li><li>静态资源打包，开启 Gzip 压缩（节省响应流量）</li><li>CSS3 模拟图像，图标base64（降低请求数）</li><li>模块延迟(defer)加载/异步(async)加载</li><li>Cookie 隔离（节省请求流量）</li><li>localStorage（本地存储）</li><li>使用 CDN 加速（访问最近服务器）</li><li>启用 HTTP/2（多路复用，并行加载）</li><li>前端自动化（gulp/webpack）</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端手札</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web</tag>
+      
+      <tag>优化</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>JAMstack构建-Hexo+Netlify</title>
     <link href="/2021/04/01/JAMstack%E6%9E%84%E5%BB%BA/"/>
     <url>/2021/04/01/JAMstack%E6%9E%84%E5%BB%BA/</url>
